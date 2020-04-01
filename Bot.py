@@ -18,7 +18,7 @@ def main():
     message = data['message']['text']
 
 
-    if 'hola'in message.lower():
+    if '/start'in message.lower():
          messageS="Bienvenido, dime Hola y te saludare o covid y te informaré el número de casos reportados en Ecuador"
 
     if 'hola'in message.lower():
