@@ -1,30 +1,32 @@
+# bot.py
+import requests  
 import os
-import telebot
-from flask import Flask, request
+from flask import Flask, request# Add your telegram token as environment variable
+BOT_URL = f'https://api.telegram.org/bot{os.environ["telekey"]}/'
 
-TOKEN = "817394076:AAE3x5yVKMytqLpknSfjN6WeKyCA10m3fz8"
-bot = telebot.TeleBot(token=TOKEN)
-server = Flask(__name__)
 
-# Bot's Functionalitiesdef sendMessage(message, text):
-bot.send_message(message.chat.id, text)# This method will send a message formatted in HTML to the user whenever it starts the bot with the /start command, feel free to add as many commands' handlers as you want@bot.message_handler(commands=['start'])
-def send_info(message):
-   text = (
-   "<b>Bienvenido🤖!</b>\n"
-   "Escribe algo"
-   )
-bot.send_message(message.chat.id, text, parse_mode='HTML')# This method will fire whenever the bot receives a message from a user, it will check that there is actually a not empty string in it and, in this case, it will check if there is the 'hello' word in it, if so it will reply with the message we defined@bot.message_handler(func=lambda msg: msg.text is not None)
-def reply_to_message(message):
-   if 'hello'in message.text.lower():
-      sendMessage(message, 'Hola, ¿Como estas?')
-      
+app = Flask(__name__)
 
-@server.route('/' + TOKEN, methods=['POST'])
-def getMessage():
-   bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-   return "!", 200@server.route("/")
-def webhook():
-   bot.remove_webhook()
-   bot.set_webhook(url='https://pythebot.herokuapp.com/' + TOKEN)
-   return "!", 200if __name__ == "__main__":
-   server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+
+@app.route('/', methods=['POST'])
+def main():  
+    data = request.json
+
+    print(data)  # Comment to hide what Telegram is sending you
+    chat_id = data['message']['chat']['id']
+    message = data['message']['text']
+
+    json_data = {
+        "chat_id": chat_id,
+        "text": message,
+    }
+
+    message_url = BOT_URL + 'sendMessage'
+    requests.post(message_url, json=json_data)
+
+    return ''
+
+
+if __name__ == '__main__':  
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
