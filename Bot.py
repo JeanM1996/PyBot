@@ -14,10 +14,15 @@ def main():
 
     print(data)  # Comment to hide what Telegram is sending you
     chat_id = data['message']['chat']['id']
+    user_name=data['message']['from']['first_name']
     message = data['message']['text']
-    messageS= "Mensaje"
+
+
     if 'hola'in message.lower():
-         messageS="Hola, te informare sobre los casos de covid en Ecuador, escrive covid"
+         messageS="Bienvenido, dime Hola y te saludare o covid y te informaré el número de casos reportados en Ecuador"
+
+    if 'hola'in message.lower():
+         messageS="Hola "+user_name
 
     if 'covid'in message.lower():
          messageS="Según el reporte del MSP en el Ecuador hay 2748 casos"
