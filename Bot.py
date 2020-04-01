@@ -16,10 +16,10 @@ def main():
     chat_id = data['message']['chat']['id']
     message = data['message']['text']
     messageS= "Mensaje"
-    if 'hola'in message.text.lower():
+    if 'hola'in message.lower():
          messageS="Hola, te informare sobre los casos de covid en Ecuador, escrive covid"
 
-    if 'covid'in message.text.lower():
+    if 'covid'in message.lower():
          messageS="Según el reporte del MSP en el Ecuador hay 2748 casos"
 
 
