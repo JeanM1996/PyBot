@@ -2,7 +2,7 @@
 import requests  
 import os
 from flask import Flask, request# Add your telegram token as environment variable
-BOT_URL = f'https://api.telegram.org/bot{os.environ["BOT_KEY"]}/'
+BOT_URL = f'https://api.telegram.org/bot{os.environ["telekey"]}/'
 
 
 app = Flask(__name__)
